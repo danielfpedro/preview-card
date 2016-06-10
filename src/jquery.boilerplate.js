@@ -106,6 +106,11 @@
 
 				$(this.element).click(function(){
 					var $this = $(this);
+
+					if (_this.getWhereToDisplay() !== "modal") {
+						return;
+					}
+
 					var cardUid = $this.data("card-uid");
 
 					_this.openModal();
@@ -127,20 +132,20 @@
 						        	$(this).data("image", data[0][_this.settings.field]);
 						        });
 
-						        $(".my-modal-body").hide().html("").css("background-image", "url("+_this.image+")").show().addClass('animated slideInUp');
+						        $(".my-modal-body").hide().html("").css("background-image", "url("+_this.image+")").show().addClass("animated bounceInDown");
 						    },
 						});
 					} else {
-						$(".my-modal-body").html("").css("background-image", "url("+$this.data("image")+")");
+						$(".my-modal-body").html("").css("background-image", "url("+$this.data("image")+")").show().addClass("animated bounceInDown");
 					}
 					return false;
 				});
 
-				$(document).on('click', '.my-modal-close', function(){
+				$(document).on('click', ".my-modal-close", function(){
 					_this.closeModal();
 				});
 
-				$('.overlay').click(function(){
+				$(".overlay").click(function(){
 					_this.closeModal();
 				});
 
@@ -338,6 +343,7 @@
 			},
 			closeModal: function(){
 				this.modalOpened = false;
+				$(".my-modal-body").removeClass("animated bounceInDown");
 				$(".overlay").fadeOut(this.settings.modalFadeSpeed);
 			},
 			openModal: function() {
