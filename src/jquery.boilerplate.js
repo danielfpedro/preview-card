@@ -106,6 +106,7 @@
 
 				$(this.element).click(function(){
 					var $this = $(this);
+					$this.blur();
 
 					// if (_this.getWhereToDisplay() !== "modal") {
 					// 	return;
