@@ -66,12 +66,12 @@
 				var _this = this;
 				// $(this.element).popover(this.popoverOptions);
 
-				$(this.element).mouseover(function(){
+				$(this.element).mouseenter(function(){
 					var $this = $(this);
 					var cardUid = $this.data("card-uid");
 
 					_this.showPopover();
-					return;
+
 					if (!_this.checkPopoverCreated()) {
 						$(_this.element).append('Carregando...');
 						$.ajax({
@@ -118,7 +118,17 @@
 					// var wHeight = $(window).height();
 					// if ($) {}
 					if (!$this.data("image")) {
-						$(".my-modal-body").css("background-image", "none").html("").html("<img src=\"../src/loader.gif\" class=\"my-modal-body-loading\">");
+						var $loader = $("<img/>")
+							.attr("src", "../src/loader.gif")
+							.addClass("my-modal-body-loading");
+
+						$(".my-modal-body")
+							.css("background-image", "none")
+							.html("")
+							.append($loader);
+
+						// $close.show().addClass("animated bounceInDown");
+
 						$.ajax({
 						    beforeSend: _this.settings.beforeSend,
 						    dataType: "json",
@@ -131,8 +141,8 @@
 						        $("[data-card-uid=\""+cardUid+"\"]").each(function(){
 						        	$(this).data("image", data[0][_this.settings.field]);
 						        });
-
-						        $(".my-modal-body").hide().html("").css("background-image", "url("+_this.image+")").show().addClass("animated bounceInDown");
+								$(".my-modal-loading").fadeOut(_this.settings.modalFadeSpeed);
+						        $(".my-modal-body").hide().html("").css("background-image", "url("+_this.image+")").show().addClass('animated bounceInDown');
 						    },
 						});
 					} else {
@@ -316,30 +326,6 @@
 				console.log($element.height());
 
 				return wHeight - distanceTop - $element.height();
-			},
-			togglePopoverBasedMediaQuery: function(){
-				var _this = this;
-				var documentWidth = $(window).width();
-				if (documentWidth <= this.settings.xsBreakpoint) {
-					$(this.element).popover('destroy');
-				} else {
-					/**
-					 * Importantissimo este destroy para noa acumular quando faz o resize
-					 */
-					$(this.element).popover('destroy');
-					$(this.element).popover(this.popoverOptions);
-
-					$(this.element).on("shown.bs.popover", function () {
-						// console.log("On show");
-						$(_this.element).addClass('popover-opened');
-						_this.setContent($(this));
-					});
-					$(this.element).on("hidden.bs.popover", function () {
-						// console.log("On show");
-						$(_this.element).removeClass('popover-opened');
-						_this.setContent($(this));
-					});
-				}
 			},
 			closeModal: function(){
 				this.modalOpened = false;
