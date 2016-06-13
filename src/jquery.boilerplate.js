@@ -107,9 +107,9 @@
 				$(this.element).click(function(){
 					var $this = $(this);
 
-					if (_this.getWhereToDisplay() !== "modal") {
-						return;
-					}
+					// if (_this.getWhereToDisplay() !== "modal") {
+					// 	return;
+					// }
 
 					var cardUid = $this.data("card-uid");
 
